@@ -88,11 +88,22 @@ public class TicketDAO {
     }
 
     public int getNbTicket(String vehicleRegNumber) {
-        int nbTicket = 0;
-        while (getTicket(vehicleRegNumber) != null) {
-            nbTicket++;
-        }
+        int visits = 0;
+        try (Connection con = dataBaseConfig.getConnection()
+        ) {
+            PreparedStatement ps = con.prepareStatement(DBConstants.COUNT_VISITS);
+            ps.setString(1, vehicleRegNumber);
+            ResultSet rs = ps.executeQuery();
 
-        return nbTicket;
+            if (rs.next()) {
+                visits = rs.getInt(1);
+            }
+            dataBaseConfig.closePreparedStatement(ps);
+            dataBaseConfig.closeResultSet(rs);
+        } catch (Exception ex) {
+            logger.error("Error verifying vehicle already exist in database", ex);
+        }
+        return visits;
+
     }
 }
