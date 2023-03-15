@@ -13,46 +13,34 @@ import com.parkit.parkingsystem.model.Ticket;
 
 <span class="fc" id="L14">        long inHour = ticket.getInTime().getTime();</span>
 <span class="fc" id="L15">        long outHour = ticket.getOutTime().getTime();</span>
+<span class="fc bfc" id="L16" title="All 2 branches covered.">        double discountCoef = discount//ecriture ternaire</span>
+<span class="fc" id="L17">                                ? 0.95</span>
+<span class="fc" id="L18">                                :1;</span>
 
-        //TODO: Some tests are failing here. Need to check if this logic is correct
-<span class="fc" id="L18">        Double duration = (outHour - inHour) / oneHour;</span>
+<span class="fc" id="L20">        Double duration = (outHour - inHour) / oneHour;</span>
 
-<span class="fc bfc" id="L20" title="All 2 branches covered.">        if (duration &lt; 0.5) {//si durée inferieur à 30min</span>
-<span class="fc" id="L21">            ticket.setPrice(0);</span>
-<span class="fc" id="L22">            return;</span>
+<span class="fc bfc" id="L22" title="All 2 branches covered.">        if (duration &lt; 0.5) {//si durée inferieur à 30min</span>
+<span class="fc" id="L23">            ticket.setPrice(0);</span>
+<span class="fc" id="L24">            return;</span>
         }
-<span class="fc bfc" id="L24" title="All 2 branches covered.">        if (discount) {// Si reduction de 5%</span>
-<span class="pc bpc" id="L25" title="1 of 3 branches missed.">            switch (ticket.getParkingSpot().getParkingType()) {</span>
-                case CAR: {
-<span class="fc" id="L27">                    ticket.setPrice((duration * Fare.CAR_RATE_PER_HOUR) * 0.95);</span>
-<span class="fc" id="L28">                    break;</span>
-                }
-                case BIKE: {
-<span class="fc" id="L31">                    ticket.setPrice((duration * Fare.BIKE_RATE_PER_HOUR) * 0.95);</span>
-<span class="fc" id="L32">                    break;</span>
-                }
-                default:
-<span class="nc" id="L35">                    throw new IllegalArgumentException(&quot;Unkown Parking Type&quot;);</span>
-            }
-<span class="fc" id="L37">            return;</span>
-        }
+
         //Si prix nominal
-<span class="pc bpc" id="L40" title="1 of 3 branches missed.">        switch (ticket.getParkingSpot().getParkingType()) {</span>
+<span class="pc bpc" id="L28" title="1 of 3 branches missed.">        switch (ticket.getParkingSpot().getParkingType()) {</span>
             case CAR: {
-<span class="fc" id="L42">                ticket.setPrice(duration * Fare.CAR_RATE_PER_HOUR);</span>
-<span class="fc" id="L43">                break;</span>
+<span class="fc" id="L30">                ticket.setPrice(duration * Fare.CAR_RATE_PER_HOUR*discountCoef);</span>
+<span class="fc" id="L31">                break;</span>
             }
             case BIKE: {
-<span class="fc" id="L46">                ticket.setPrice(duration * Fare.BIKE_RATE_PER_HOUR);</span>
-<span class="fc" id="L47">                break;</span>
+<span class="fc" id="L34">                ticket.setPrice(duration * Fare.BIKE_RATE_PER_HOUR*discountCoef);</span>
+<span class="fc" id="L35">                break;</span>
             }
             default:
-<span class="nc" id="L50">                throw new IllegalArgumentException(&quot;Unkown Parking Type&quot;);</span>
+<span class="nc" id="L38">                throw new IllegalArgumentException(&quot;Unkown Parking Type&quot;);</span>
         }
-<span class="fc" id="L52">    }</span>
+<span class="fc" id="L40">    }</span>
 
     public void calculateFare(Ticket ticket) {
-<span class="fc" id="L55">        calculateFare(ticket, false);</span>
-<span class="fc" id="L56">    }</span>
+<span class="fc" id="L43">        calculateFare(ticket, false);</span>
+<span class="fc" id="L44">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
