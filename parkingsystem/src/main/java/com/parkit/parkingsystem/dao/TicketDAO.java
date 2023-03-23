@@ -89,8 +89,8 @@ public class TicketDAO {
 
     public int getNbTicket(String vehicleRegNumber) {
         int visits = 0;
-        try (Connection con = dataBaseConfig.getConnection()
-        ) {
+        try {
+            Connection con = dataBaseConfig.getConnection();
             PreparedStatement ps = con.prepareStatement(DBConstants.COUNT_VISITS);
             ps.setString(1, vehicleRegNumber);
             ResultSet rs = ps.executeQuery();
