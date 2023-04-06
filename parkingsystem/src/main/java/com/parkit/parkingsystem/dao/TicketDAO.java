@@ -31,12 +31,13 @@ public class TicketDAO {
             ps.setDouble(3, ticket.getPrice());
             ps.setTimestamp(4, new Timestamp(ticket.getInTime().getTime()));
             ps.setTimestamp(5, (ticket.getOutTime() == null) ? null : (new Timestamp(ticket.getOutTime().getTime())));
-            return ps.execute();
+            ps.execute();
+            return true;
         } catch (Exception ex) {
             logger.error("Error fetching next available slot", ex);
+            return false;
         } finally {
             dataBaseConfig.closeConnection(con);
-            return false;
         }
     }
 
@@ -65,8 +66,8 @@ public class TicketDAO {
             logger.error("Error fetching next available slot", ex);
         } finally {
             dataBaseConfig.closeConnection(con);
-            return ticket;
         }
+        return ticket;
     }
 
     public boolean updateTicket(Ticket ticket) {
@@ -77,8 +78,7 @@ public class TicketDAO {
             ps.setDouble(1, ticket.getPrice());
             ps.setTimestamp(2, new Timestamp(ticket.getOutTime().getTime()));
             ps.setInt(3, ticket.getId());
-            ps.execute();
-            return true;
+            return ps.executeUpdate() == 1;
         } catch (Exception ex) {
             logger.error("Error saving ticket info", ex);
         } finally {
@@ -89,8 +89,9 @@ public class TicketDAO {
 
     public int getNbTicket(String vehicleRegNumber) {
         int visits = 0;
+        Connection con = null;
         try {
-            Connection con = dataBaseConfig.getConnection();
+            con = dataBaseConfig.getConnection();
             PreparedStatement ps = con.prepareStatement(DBConstants.COUNT_VISITS);
             ps.setString(1, vehicleRegNumber);
             ResultSet rs = ps.executeQuery();
@@ -101,8 +102,10 @@ public class TicketDAO {
             dataBaseConfig.closeResultSet(rs);
         } catch (Exception ex) {
             logger.error("Error verifying vehicle already exist in database", ex);
+        } finally {
+            dataBaseConfig.closeConnection(con);
         }
         return visits;
-
     }
+
 }

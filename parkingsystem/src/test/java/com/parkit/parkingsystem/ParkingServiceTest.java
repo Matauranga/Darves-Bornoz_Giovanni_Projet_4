@@ -10,7 +10,6 @@ import com.parkit.parkingsystem.service.ParkingService;
 import com.parkit.parkingsystem.util.InputReaderUtil;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -106,7 +105,7 @@ public class ParkingServiceTest {
     }
 
     @Test
-    @DisplayName("UpdateTicket doesn't work")
+    @DisplayName("UpdateTicket don't work")
     public void processExitingVehicleTestUnableUpdate() throws Exception {
         //GIVEN
 
@@ -181,14 +180,15 @@ public class ParkingServiceTest {
     @Test
     @DisplayName("Next parking number not found")
     public void testGetNextParkingNumberIfAvailableParkingNumberNotFound() {
-        //GIVEN
+        //GIVEN a specific input
+        final int input = 1;
 
-        //WHEN
-        when(inputReaderUtil.readSelection()).thenReturn(1);
-        var response = parkingService.getNextParkingNumberIfAvailable();
+        //WHEN I get the next parking number
+        when(inputReaderUtil.readSelection()).thenReturn(input);
+        final ParkingSpot response = parkingService.getNextParkingNumberIfAvailable();
 
+        //THEN the response is empty
         assertNull(response);
-
     }
 
     @Test
