@@ -105,7 +105,6 @@ public class ParkingDataBaseIT {
 
 
     @DisplayName("Integration test for a car entering and exiting")
-    @Disabled
     @Test
     public void testParkingLotExitRecurringUser() throws Exception {
 
@@ -124,10 +123,8 @@ public class ParkingDataBaseIT {
         ticketDAO.saveTicket(firstTicket);
 
         //Create second ticket
-        parkingService.processIncomingVehicle();
         Ticket secondTicket = ticketDAO.getTicket(vehicleRegNumber);
         secondTicket.setInTime(new Date(currentTimeMillis() - (1000 * 60 * 60)));
-        //secondTicket.setId(2);
         ticketDAO.saveTicket(secondTicket);
         Thread.sleep(1000);
         parkingService.processExitingVehicle();
