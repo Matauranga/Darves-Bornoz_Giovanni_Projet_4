@@ -60,7 +60,7 @@ public class ParkingDataBaseIT {
     @DisplayName("Integration test to park a car")
     @Test
     public void testParkingACar() {
-        //GIVEN an initial state
+        //GIVEN
         ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
         int initialAvailableSpot = parkingSpotDAO.getNextAvailableSlot(ParkingType.CAR);
         // AND a ticket don't exist
@@ -107,7 +107,7 @@ public class ParkingDataBaseIT {
     @DisplayName("Integration test for a car entering and exiting")
     @Test
     public void testParkingLotExitRecurringUser() throws Exception {
-
+        //GIVEN
         String vehicleRegNumber = "ABCDEF";
         ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
 

@@ -165,8 +165,8 @@ public class ParkingServiceTest {
     public void testGetNextParkingNumberIfAvailable() {
         //GIVEN
         ParkingSpot parkingSpot;
-        //WHEN
 
+        //WHEN
         when(inputReaderUtil.readSelection()).thenReturn(2);
         when(parkingSpotDAO.getNextAvailableSlot(any())).thenReturn(1);
         parkingSpot = parkingService.getNextParkingNumberIfAvailable();
@@ -180,14 +180,15 @@ public class ParkingServiceTest {
     @Test
     @DisplayName("Next parking number not found")
     public void testGetNextParkingNumberIfAvailableParkingNumberNotFound() {
-        //GIVEN a specific input
+        //GIVEN
         final int input = 1;
 
-        //WHEN I get the next parking number
+        //WHEN
         when(inputReaderUtil.readSelection()).thenReturn(input);
+        when(parkingSpotDAO.getNextAvailableSlot(any())).thenReturn(-1);
         final ParkingSpot response = parkingService.getNextParkingNumberIfAvailable();
 
-        //THEN the response is empty
+        //THEN
         assertNull(response);
     }
 
